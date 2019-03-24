@@ -14,10 +14,12 @@ namespace ThanksCardClient.Services
     class RestService : IRestService
     {
         private HttpClient Client;
+        private string BaseUrl;
 
         public RestService()
         {
-            Client = new HttpClient();
+            this.Client = new HttpClient();
+            this.BaseUrl = "http://192.168.0.17:5000";
         }
         public async Task<User> LogonAsync(User user)
         {
@@ -31,7 +33,7 @@ namespace ThanksCardClient.Services
             User responseUser = null;
             try
             {
-                var response = await Client.PostAsync("http://192.168.0.17:5000/api/Logon", content);
+                var response = await Client.PostAsync(this.BaseUrl + "/api/Logon", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -52,7 +54,7 @@ namespace ThanksCardClient.Services
             List<User> responseUsers = null;
             try
             {
-                var response = await Client.GetAsync("http://192.168.0.17:5000/api/User");
+                var response = await Client.GetAsync(this.BaseUrl + "/api/User");
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
@@ -78,7 +80,7 @@ namespace ThanksCardClient.Services
             User responseUser = null;
             try
             {
-                var response = await Client.PostAsync("http://192.168.0.17:5000/api/User", content);
+                var response = await Client.PostAsync(this.BaseUrl + "/api/User", content);
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
@@ -104,7 +106,7 @@ namespace ThanksCardClient.Services
             User responseUser = null;
             try
             {
-                var response = await Client.PutAsync("http://192.168.0.17:5000/api/User/" + user.Id, content);
+                var response = await Client.PutAsync(this.BaseUrl + "/api/User/" + user.Id, content);
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
@@ -123,7 +125,7 @@ namespace ThanksCardClient.Services
             User responseUser = null;
             try
             {
-                var response = await Client.DeleteAsync("http://192.168.0.17:5000/api/User/" + Id);
+                var response = await Client.DeleteAsync(this.BaseUrl + "/api/User/" + Id);
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
@@ -142,7 +144,7 @@ namespace ThanksCardClient.Services
             List<ThanksCard> responseThanksCards = null;
             try
             {
-                var response = await Client.GetAsync("http://192.168.0.17:5000/api/ThanksCard");
+                var response = await Client.GetAsync(this.BaseUrl + "/api/ThanksCard");
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
@@ -168,7 +170,7 @@ namespace ThanksCardClient.Services
             ThanksCard responseThanksCard = null;
             try
             {
-                var response = await Client.PostAsync("http://192.168.0.17:5000/api/ThanksCard", content);
+                var response = await Client.PostAsync(this.BaseUrl + "/api/ThanksCard", content);
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
