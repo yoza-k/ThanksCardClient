@@ -22,6 +22,10 @@ namespace ThanksCardClient.Services
                 return SessionService.instance;
             }
         }
+
+        private SessionService()
+        {
+        }
     }
 
 }
