@@ -84,6 +84,23 @@ namespace ThanksCardClient.Models
         }
         #endregion
 
+        #region DepartmentProperty
+        private Department _Department;
+
+        public Department Department
+        {
+            get
+            { return _Department; }
+            set
+            { 
+                if (_Department == value)
+                    return;
+                _Department = value;
+                RaisePropertyChanged();
+            }
+        }
+        #endregion
+
         public async Task<User> LogonAsync()
         {
             IRestService rest = new RestService();

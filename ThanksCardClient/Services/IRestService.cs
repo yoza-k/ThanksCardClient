@@ -18,6 +18,12 @@ namespace ThanksCardClient.Services
         Task<User> PutUserAsync(User user);
         Task<User> DeleteUserAsync(long Id);
 
+        // Department REST API Client
+        Task<List<Department>> GetDepartmentsAsync();
+        Task<Department> PostDepartmentAsync(Department department);
+        Task<Department> PutDepartmentAsync(Department department);
+        Task<Department> DeleteDepartmentAsync(long Id);
+
         // TanksCard REST API Client
         Task<List<ThanksCard>> GetThanksCardsAsync();
         Task<ThanksCard> PostThanksCardAsync(ThanksCard thanksCard);

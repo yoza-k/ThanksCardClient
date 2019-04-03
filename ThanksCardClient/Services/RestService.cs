@@ -19,7 +19,7 @@ namespace ThanksCardClient.Services
         public RestService()
         {
             this.Client = new HttpClient();
-            this.BaseUrl = "http://192.168.0.17:5000";
+            this.BaseUrl = "http://localhost:5000";
         }
         public async Task<User> LogonAsync(User user)
         {
@@ -54,7 +54,7 @@ namespace ThanksCardClient.Services
             List<User> responseUsers = null;
             try
             {
-                var response = await Client.GetAsync(this.BaseUrl + "/api/User");
+                var response = await Client.GetAsync(this.BaseUrl + "/api/Users");
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
@@ -80,7 +80,7 @@ namespace ThanksCardClient.Services
             User responseUser = null;
             try
             {
-                var response = await Client.PostAsync(this.BaseUrl + "/api/User", content);
+                var response = await Client.PostAsync(this.BaseUrl + "/api/Users", content);
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
@@ -106,7 +106,7 @@ namespace ThanksCardClient.Services
             User responseUser = null;
             try
             {
-                var response = await Client.PutAsync(this.BaseUrl + "/api/User/" + user.Id, content);
+                var response = await Client.PutAsync(this.BaseUrl + "/api/Users/" + user.Id, content);
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
@@ -125,7 +125,7 @@ namespace ThanksCardClient.Services
             User responseUser = null;
             try
             {
-                var response = await Client.DeleteAsync(this.BaseUrl + "/api/User/" + Id);
+                var response = await Client.DeleteAsync(this.BaseUrl + "/api/Users/" + Id);
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
@@ -137,6 +137,96 @@ namespace ThanksCardClient.Services
                 System.Diagnostics.Debug.WriteLine("Exception in RestService.DeleteUserAsync: " + e);
             }
             return responseUser;
+        }
+
+        public async Task<List<Department>> GetDepartmentsAsync()
+        {
+            List<Department> responseDepartments = null;
+            try
+            {
+                var response = await Client.GetAsync(this.BaseUrl + "/api/Departments");
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    responseDepartments = JsonConvert.DeserializeObject<List<Department>>(responseContent);
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception in RestService.GetDepartmentsAsync: " + e);
+            }
+            return responseDepartments;
+        }
+
+        public async Task<Department> PostDepartmentAsync(Department department)
+        {
+            var jObject = JsonConvert.SerializeObject(department);
+
+            //Make Json object into content type
+            var content = new StringContent(jObject);
+            //Adding header of the contenttype
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            Department responseDepartment = null;
+            try
+            {
+                var response = await Client.PostAsync(this.BaseUrl + "/api/Departments", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    responseDepartment = JsonConvert.DeserializeObject<Department>(responseContent);
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception in RestService.PostDepartmentAsync: " + e);
+            }
+            return responseDepartment;
+        }
+
+        public async Task<Department> PutDepartmentAsync(Department department)
+        {
+            var jObject = JsonConvert.SerializeObject(department);
+
+            //Make Json object into content type
+            var content = new StringContent(jObject);
+            //Adding header of the contenttype
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            Department responseDepartment = null;
+            try
+            {
+                var response = await Client.PutAsync(this.BaseUrl + "/api/Departments/" + department.Id, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    responseDepartment = JsonConvert.DeserializeObject<Department>(responseContent);
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception in RestService.PutDepartmentAsync: " + e);
+            }
+            return responseDepartment;
+        }
+
+        public async Task<Department> DeleteDepartmentAsync(long Id)
+        {
+            Department responseDepartment = null;
+            try
+            {
+                var response = await Client.DeleteAsync(this.BaseUrl + "/api/Departments/" + Id);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    responseDepartment = JsonConvert.DeserializeObject<Department>(responseContent);
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception in RestService.DeleteDepartmentAsync: " + e);
+            }
+            return responseDepartment;
         }
 
         public async Task<List<ThanksCard>> GetThanksCardsAsync()

@@ -167,5 +167,29 @@ namespace ThanksCardClient.ViewModels
         }
         #endregion
 
+        #region ShowDepartmentMstCommand
+        private ViewModelCommand _ShowDepartmentMstCommand;
+
+        public ViewModelCommand ShowDepartmentMstCommand
+        {
+            get
+            {
+                if (_ShowDepartmentMstCommand == null)
+                {
+                    _ShowDepartmentMstCommand = new ViewModelCommand(ShowDepartmentMst);
+                }
+                return _ShowDepartmentMstCommand;
+            }
+        }
+
+        public void ShowDepartmentMst()
+        {
+            System.Diagnostics.Debug.WriteLine("ShowDepartmentMst");
+            DepartmentMstViewModel ViewModel = new DepartmentMstViewModel();
+            var message = new TransitionMessage(typeof(Views.DepartmentMst), ViewModel, TransitionMode.Modal, "ShowDepartmentMst");
+            Messenger.Raise(message);
+        }
+        #endregion
+
     }
 }
