@@ -79,7 +79,13 @@ namespace ThanksCardClient.ViewModels
                 EditingUser.Name = this.User.Name;
                 EditingUser.Password = this.User.Password;
                 EditingUser.IsAdmin = this.User.IsAdmin;
-                EditingUser.Department = this.User.Department;
+                foreach(Department department in Departments)
+                {
+                    if(department.Id == this.User.Department.Id)
+                    {
+                        EditingUser.Department = department;
+                    }
+                }
             }
         }
 

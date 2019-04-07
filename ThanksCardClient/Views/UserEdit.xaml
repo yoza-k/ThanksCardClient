@@ -47,7 +47,7 @@
             <TextBlock Text="IsAdmin:"/>
             <CheckBox IsChecked="{Binding EditingUser.IsAdmin}"/>
             <TextBlock Text="Department:"/>
-            <ComboBox ItemsSource="{Binding Departments}" DisplayMemberPath="Name" SelectedValue="{Binding EditingUser.Department}" SelectedItem="{Binding EditingUser.Department}"/>
+            <ComboBox SelectedItem="{Binding EditingUser.Department}" ItemsSource="{Binding Departments}" DisplayMemberPath="Name" SelectedValue="{Binding EditingUser.Department}"/>
             <Button Content="Submit" Command="{Binding SubmitCommand}"/>
         </StackPanel>
     </Grid>
