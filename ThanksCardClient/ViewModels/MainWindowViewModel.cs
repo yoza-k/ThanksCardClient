@@ -13,6 +13,7 @@ using Livet.Messaging.Windows;
 
 using ThanksCardClient.Models;
 using ThanksCardClient.Services;
+using System.Windows;
 
 namespace ThanksCardClient.ViewModels
 {
@@ -113,9 +114,21 @@ namespace ThanksCardClient.ViewModels
         public void ShowThanksCardCreate()
         {
             System.Diagnostics.Debug.WriteLine("ShowThanksCardCreate");
-            ThanksCardCreateViewModel ViewModel = new ThanksCardCreateViewModel();
-            var message = new TransitionMessage(typeof(Views.ThanksCardCreate), ViewModel, TransitionMode.Modal, "ShowThanksCardCreate");
-            Messenger.Raise(message);
+            var window = Application.Current.Windows.OfType<Window>().SingleOrDefault((w) => w.IsActive);
+
+            try
+            {
+                // MainWindow を非表示
+                window.Hide();
+                ThanksCardCreateViewModel ViewModel = new ThanksCardCreateViewModel();
+                var message = new TransitionMessage(typeof(Views.ThanksCardCreate), ViewModel, TransitionMode.Modal, "ShowThanksCardCreate");
+                Messenger.Raise(message);
+            }
+            finally
+            {
+                // MainWindow を再表示
+                window.ShowDialog();
+            }
         }
         #endregion
 
@@ -137,9 +150,21 @@ namespace ThanksCardClient.ViewModels
         public void ShowThanksCardList()
         {
             System.Diagnostics.Debug.WriteLine("ShowThanksCardList");
-            ThanksCardListViewModel ViewModel = new ThanksCardListViewModel();
-            var message = new TransitionMessage(typeof(Views.ThanksCardList), ViewModel, TransitionMode.Modal, "ShowThanksCardList");
-            Messenger.Raise(message);
+            var window = Application.Current.Windows.OfType<Window>().SingleOrDefault((w) => w.IsActive);
+
+            try
+            {
+                // MainWindow を非表示
+                window.Hide();
+                ThanksCardListViewModel ViewModel = new ThanksCardListViewModel();
+                var message = new TransitionMessage(typeof(Views.ThanksCardList), ViewModel, TransitionMode.Modal, "ShowThanksCardList");
+                Messenger.Raise(message);
+            }
+            finally
+            {
+                // MainWindow を再表示
+                window.ShowDialog();
+            }
         }
         #endregion
 
@@ -161,9 +186,21 @@ namespace ThanksCardClient.ViewModels
         public void ShowUserMst()
         {
             System.Diagnostics.Debug.WriteLine("ShowUserMst");
-            UserMstViewModel ViewModel = new UserMstViewModel();
-            var message = new TransitionMessage(typeof(Views.UserMst), ViewModel, TransitionMode.Modal, "ShowUserMst");
-            Messenger.Raise(message);
+            var window = Application.Current.Windows.OfType<Window>().SingleOrDefault((w) => w.IsActive);
+
+            try
+            {
+                // MainWindow を非表示
+                window.Hide();
+                UserMstViewModel ViewModel = new UserMstViewModel();
+                var message = new TransitionMessage(typeof(Views.UserMst), ViewModel, TransitionMode.Modal, "ShowUserMst");
+                Messenger.Raise(message);
+            }
+            finally
+            {
+                // MainWindow を再表示
+                window.ShowDialog();
+            }
         }
         #endregion
 
@@ -185,9 +222,21 @@ namespace ThanksCardClient.ViewModels
         public void ShowDepartmentMst()
         {
             System.Diagnostics.Debug.WriteLine("ShowDepartmentMst");
-            DepartmentMstViewModel ViewModel = new DepartmentMstViewModel();
-            var message = new TransitionMessage(typeof(Views.DepartmentMst), ViewModel, TransitionMode.Modal, "ShowDepartmentMst");
-            Messenger.Raise(message);
+            var window = Application.Current.Windows.OfType<Window>().SingleOrDefault((w) => w.IsActive);
+
+            try
+            {
+                // MainWindow を非表示
+                window.Hide();
+                DepartmentMstViewModel ViewModel = new DepartmentMstViewModel();
+                var message = new TransitionMessage(typeof(Views.DepartmentMst), ViewModel, TransitionMode.Modal, "ShowDepartmentMst");
+                Messenger.Raise(message);
+            }
+            finally
+            {
+                // MainWindow を再表示
+                window.ShowDialog();
+            }
         }
         #endregion
 

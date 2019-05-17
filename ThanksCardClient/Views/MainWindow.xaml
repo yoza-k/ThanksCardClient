@@ -35,20 +35,21 @@
             <l:TransitionInteractionMessageAction/>
         </l:InteractionMessageTrigger>
         <!-- MainWindowViewModel からの TransitionMessage("ShowThanksCardCreate") を受け取とって感謝カード作成画面を表示する処理。 -->
+        <!-- InvokeActionOnlyWhenWindowIsActive="False" を指定することで、MainWindow が非表示中であってもメッセージを受け取る-->
         <l:InteractionMessageTrigger MessageKey="ShowThanksCardCreate" Messenger="{Binding Messenger}">
-            <l:TransitionInteractionMessageAction/>
+            <l:TransitionInteractionMessageAction InvokeActionOnlyWhenWindowIsActive="False"/>
         </l:InteractionMessageTrigger>
         <!-- MainWindowViewModel からの TransitionMessage("ShowThanksCardList") を受け取とって感謝カード作成画面を表示する処理。 -->
         <l:InteractionMessageTrigger MessageKey="ShowThanksCardList" Messenger="{Binding Messenger}">
-            <l:TransitionInteractionMessageAction/>
+            <l:TransitionInteractionMessageAction InvokeActionOnlyWhenWindowIsActive="False"/>
         </l:InteractionMessageTrigger>
         <!-- MainWindowViewModel からの TransitionMessage("ShowUserMst") を受け取とってユーザマスタ画面を表示する処理。 -->
         <l:InteractionMessageTrigger MessageKey="ShowUserMst" Messenger="{Binding Messenger}">
-            <l:TransitionInteractionMessageAction/>
+            <l:TransitionInteractionMessageAction InvokeActionOnlyWhenWindowIsActive="False"/>
         </l:InteractionMessageTrigger>
         <!-- MainWindowViewModel からの TransitionMessage("ShowDepartmentMst") を受け取とって部署マスタ画面を表示する処理。 -->
         <l:InteractionMessageTrigger MessageKey="ShowDepartmentMst" Messenger="{Binding Messenger}">
-            <l:TransitionInteractionMessageAction/>
+            <l:TransitionInteractionMessageAction InvokeActionOnlyWhenWindowIsActive="False"/>
         </l:InteractionMessageTrigger>
 
     </i:Interaction.Triggers>
