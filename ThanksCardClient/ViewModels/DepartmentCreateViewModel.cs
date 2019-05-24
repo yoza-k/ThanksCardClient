@@ -76,9 +76,28 @@ namespace ThanksCardClient.ViewModels
         }
         #endregion
 
-        public void Initialize()
+        #region DepartmentsProperty
+        private List<Department> _Departments;
+
+        public List<Department> Departments
+        {
+            get
+            { return _Departments; }
+            set
+            {
+                if (_Departments == value)
+                    return;
+                _Departments = value;
+                RaisePropertyChanged();
+            }
+        }
+        #endregion
+
+
+        public async void Initialize()
         {
             this.Department = new Department();
+            this.Departments = await this.Department.GetDepartmentsAsync();
         }
 
         #region SubmitCommand

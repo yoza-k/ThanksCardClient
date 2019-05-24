@@ -51,6 +51,7 @@
                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
                     <DataGridTextColumn Header="コード" Binding="{Binding Code}" />
                     <DataGridTextColumn Header="名前" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="親部署" Binding="{Binding Parent.Name}" />
                     <DataGridTemplateColumn Header="">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

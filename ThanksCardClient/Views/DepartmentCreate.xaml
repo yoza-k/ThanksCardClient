@@ -44,6 +44,9 @@
             <TextBox Text="{Binding Department.Code}"/>
             <TextBlock Text="Name:"/>
             <TextBox Text="{Binding Department.Name}"/>
+            <TextBlock Text="Parent:"/>
+            <ComboBox SelectedItem="{Binding Department.Parent}" ItemsSource="{Binding Departments}" DisplayMemberPath="Name" SelectedValue="{Binding Department.Parent}"/>
+
             <Button Content="Submit" Command="{Binding SubmitCommand}"/>
         </StackPanel>
     </Grid>

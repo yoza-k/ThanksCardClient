@@ -93,13 +93,41 @@ namespace ThanksCardClient.ViewModels
         }
         #endregion
 
-        public void Initialize()
+        #region DepartmentsProperty
+        private List<Department> _Departments;
+
+        public List<Department> Departments
+        {
+            get
+            { return _Departments; }
+            set
+            { 
+                if (_Departments == value)
+                    return;
+                _Departments = value;
+                RaisePropertyChanged();
+            }
+        }
+        #endregion
+
+        public async void Initialize()
         {
             this.EditingDepartment = new Department();
             if(this.Department != null)
             {
                 EditingDepartment.Code = this.Department.Code;
                 EditingDepartment.Name = this.Department.Name;
+            }
+            this.Departments = await this.EditingDepartment.GetDepartmentsAsync();
+            foreach (Department dept in Departments)
+            {
+                if(this.Department.Parent != null)
+                {
+                    if (dept.Id == this.Department.Parent.Id)
+                    {
+                        EditingDepartment.Parent = dept;
+                    }
+                }
             }
         }
 
@@ -122,6 +150,12 @@ namespace ThanksCardClient.ViewModels
         {
             this.Department.Code = this.EditingDepartment.Code;
             this.Department.Name = this.EditingDepartment.Name;
+            this.Department.Parent = this.EditingDepartment.Parent;
+            if(this.EditingDepartment.Parent != null)
+            {
+                this.Department.ParentId = this.EditingDepartment.Parent.Id;
+            }
+
             Department updatedDepartment = await Department.PutDepartmentAsync(this.Department);
             //TODO: Error handling
             Messenger.Raise(new WindowActionMessage(WindowAction.Close, "Edited"));

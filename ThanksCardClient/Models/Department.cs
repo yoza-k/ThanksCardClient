@@ -67,6 +67,57 @@ namespace ThanksCardClient.Models
         }
         #endregion
 
+        #region ParentIdProperty
+        private long? _ParentId;
+
+        public long? ParentId
+        {
+            get
+            { return _ParentId; }
+            set
+            { 
+                if (_ParentId == value)
+                    return;
+                _ParentId = value;
+                RaisePropertyChanged();
+            }
+        }
+        #endregion
+
+        #region ParentProperty
+        private Department _Parent;
+
+        public Department Parent
+        {
+            get
+            { return _Parent; }
+            set
+            { 
+                if (_Parent == value)
+                    return;
+                _Parent = value;
+                RaisePropertyChanged();
+            }
+        }
+        #endregion
+
+        #region ChildrenProperty
+        private List<Department> _Children;
+
+        public List<Department> Children
+        {
+            get
+            { return _Children; }
+            set
+            { 
+                if (_Children == value)
+                    return;
+                _Children = value;
+                RaisePropertyChanged();
+            }
+        }
+        #endregion
+
         #region UsersProperty
         private List<User> _Users;
 
