@@ -81,7 +81,7 @@ namespace ThanksCardClient.ViewModels
                 EditingUser.IsAdmin = this.User.IsAdmin;
                 foreach(Department department in Departments)
                 {
-                    if(department.Id == this.User.Department.Id)
+                    if(this.User.Department != null && department.Id == this.User.Department.Id)
                     {
                         EditingUser.Department = department;
                     }
