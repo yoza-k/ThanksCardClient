@@ -51,42 +51,10 @@ namespace ThanksCardClient.ViewModels
         }
         #endregion
 
-        #region EditingUserProperty
-        private User _EditingUser;
-
-        public User EditingUser
-        {
-            get
-            { return _EditingUser; }
-            set
-            { 
-                if (_EditingUser == value)
-                    return;
-                _EditingUser = value;
-                RaisePropertyChanged();
-            }
-        }
-        #endregion
-
         public async void Initialize()
         {
             Department dept = new Department();
             this.Departments = await dept.GetDepartmentsAsync();
-
-            this.EditingUser = new User();
-            if(this.User != null)
-            {
-                EditingUser.Name = this.User.Name;
-                EditingUser.Password = this.User.Password;
-                EditingUser.IsAdmin = this.User.IsAdmin;
-                foreach(Department department in Departments)
-                {
-                    if(this.User.Department != null && department.Id == this.User.Department.Id)
-                    {
-                        EditingUser.Department = department;
-                    }
-                }
-            }
         }
 
         #region SubmitCommand
@@ -106,10 +74,6 @@ namespace ThanksCardClient.ViewModels
 
         public async void Submit()
         {
-            this.User.Name = this.EditingUser.Name;
-            this.User.Password = this.EditingUser.Password;
-            this.User.IsAdmin = this.EditingUser.IsAdmin;
-            this.User.Department = this.EditingUser.Department;
             User updatedUser = await User.PutUserAsync(this.User);
             //TODO: Error handling
             Messenger.Raise(new WindowActionMessage(WindowAction.Close, "Edited"));

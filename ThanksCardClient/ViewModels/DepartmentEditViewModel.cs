@@ -76,23 +76,6 @@ namespace ThanksCardClient.ViewModels
         }
         #endregion
 
-        #region EditingDepartmentProperty
-        private Department _EditingDepartment;
-
-        public Department EditingDepartment
-        {
-            get
-            { return _EditingDepartment; }
-            set
-            { 
-                if (_EditingDepartment == value)
-                    return;
-                _EditingDepartment = value;
-                RaisePropertyChanged();
-            }
-        }
-        #endregion
-
         #region DepartmentsProperty
         private List<Department> _Departments;
 
@@ -112,23 +95,7 @@ namespace ThanksCardClient.ViewModels
 
         public async void Initialize()
         {
-            this.EditingDepartment = new Department();
-            if(this.Department != null)
-            {
-                EditingDepartment.Code = this.Department.Code;
-                EditingDepartment.Name = this.Department.Name;
-            }
-            this.Departments = await this.EditingDepartment.GetDepartmentsAsync();
-            foreach (Department dept in Departments)
-            {
-                if(this.Department.Parent != null)
-                {
-                    if (dept.Id == this.Department.Parent.Id)
-                    {
-                        EditingDepartment.Parent = dept;
-                    }
-                }
-            }
+            this.Departments = await this.Department.GetDepartmentsAsync();
         }
 
         #region SubmitCommand
@@ -148,14 +115,6 @@ namespace ThanksCardClient.ViewModels
 
         public async void Submit()
         {
-            this.Department.Code = this.EditingDepartment.Code;
-            this.Department.Name = this.EditingDepartment.Name;
-            this.Department.Parent = this.EditingDepartment.Parent;
-            if(this.EditingDepartment.Parent != null)
-            {
-                this.Department.ParentId = this.EditingDepartment.Parent.Id;
-            }
-
             Department updatedDepartment = await Department.PutDepartmentAsync(this.Department);
             //TODO: Error handling
             Messenger.Raise(new WindowActionMessage(WindowAction.Close, "Edited"));
