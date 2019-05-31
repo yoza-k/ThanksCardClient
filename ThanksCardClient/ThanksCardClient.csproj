@@ -58,11 +58,16 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\Tag.cs" />
+    <Compile Include="Models\ThanksCardTag.cs" />
     <Compile Include="Services\IRestService.cs" />
     <Compile Include="Services\RestService.cs" />
     <Compile Include="Services\SessionService.cs" />
     <Compile Include="ViewModels\LogonViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\TagCreateViewModel.cs" />
+    <Compile Include="ViewModels\TagEditViewModel.cs" />
+    <Compile Include="ViewModels\TagMstViewModel.cs" />
     <Compile Include="ViewModels\ThanksCardCreateViewModel.cs" />
     <Compile Include="ViewModels\ThanksCardListViewModel.cs" />
     <Compile Include="ViewModels\DepartmentCreateViewModel.cs" />
@@ -76,6 +81,15 @@
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TagCreate.xaml.cs">
+      <DependentUpon>TagCreate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TagEdit.xaml.cs">
+      <DependentUpon>TagEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TagMst.xaml.cs">
+      <DependentUpon>TagMst.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ThanksCardCreate.xaml.cs">
       <DependentUpon>ThanksCardCreate.xaml</DependentUpon>
@@ -147,6 +161,18 @@
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TagCreate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TagEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TagMst.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ThanksCardCreate.xaml">
       <Generator>MSBuild:Compile</Generator>

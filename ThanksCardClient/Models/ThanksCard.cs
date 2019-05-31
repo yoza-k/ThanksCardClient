@@ -152,6 +152,23 @@ namespace ThanksCardClient.Models
         }
         #endregion
 
+        #region ThanksCardTagsProperty
+        private List<ThanksCardTag> _ThanksCardTags;
+
+        public List<ThanksCardTag> ThanksCardTags
+        {
+            get
+            { return _ThanksCardTags; }
+            set
+            { 
+                if (_ThanksCardTags == value)
+                    return;
+                _ThanksCardTags = value;
+                RaisePropertyChanged();
+            }
+        }
+        #endregion
+
         public ThanksCard()
         {
             this.CreatedDateTime = DateTime.Now;

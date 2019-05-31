@@ -240,5 +240,41 @@ namespace ThanksCardClient.ViewModels
         }
         #endregion
 
+        #region ShowTagMstCommand
+        private ViewModelCommand _ShowTagMstCommand;
+
+        public ViewModelCommand ShowTagMstCommand
+        {
+            get
+            {
+                if (_ShowTagMstCommand == null)
+                {
+                    _ShowTagMstCommand = new ViewModelCommand(ShowTagMst);
+                }
+                return _ShowTagMstCommand;
+            }
+        }
+
+        public void ShowTagMst()
+        {
+            System.Diagnostics.Debug.WriteLine("ShowTagMst");
+            var window = Application.Current.Windows.OfType<Window>().SingleOrDefault((w) => w.IsActive);
+
+            try
+            {
+                // MainWindow を非表示
+                window.Hide();
+                TagMstViewModel ViewModel = new TagMstViewModel();
+                var message = new TransitionMessage(typeof(Views.TagMst), ViewModel, TransitionMode.Modal, "ShowTagMst");
+                Messenger.Raise(message);
+            }
+            finally
+            {
+                // MainWindow を再表示
+                window.ShowDialog();
+            }
+        }
+        #endregion
+
     }
 }

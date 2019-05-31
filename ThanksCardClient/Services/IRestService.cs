@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace ThanksCardClient.Services
 {
@@ -28,5 +29,10 @@ namespace ThanksCardClient.Services
         Task<List<ThanksCard>> GetThanksCardsAsync();
         Task<ThanksCard> PostThanksCardAsync(ThanksCard thanksCard);
 
+        // Tag REST API Client
+        Task<ObservableCollection<Tag>> GetTagsAsync();
+        Task<Tag> PostTagAsync(Tag tag);
+        Task<Tag> PutTagAsync(Tag tag);
+        Task<Tag> DeleteTagAsync(long Id);
     }
 }
