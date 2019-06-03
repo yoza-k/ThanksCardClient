@@ -103,7 +103,7 @@ namespace ThanksCardClient.ViewModels
 
             //選択された Tag を取得し、ThanksCard.ThanksCardTags にセットする。
             List<ThanksCardTag> ThanksCardTags = new List<ThanksCardTag>();
-            foreach (var tag in this.Tags.Where(o => o.Selected))
+            foreach (var tag in this.Tags.Where(t => t.Selected))
             {
                 ThanksCardTag thanksCardTag = new ThanksCardTag();
                 thanksCardTag.TagId = tag.Id;
