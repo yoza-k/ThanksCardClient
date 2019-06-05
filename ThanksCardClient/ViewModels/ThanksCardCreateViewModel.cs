@@ -13,6 +13,7 @@ using Livet.Messaging.Windows;
 
 using ThanksCardClient.Models;
 using ThanksCardClient.Services;
+using System.Collections.ObjectModel;
 
 namespace ThanksCardClient.ViewModels
 {
@@ -53,6 +54,22 @@ namespace ThanksCardClient.ViewModels
         }
         #endregion
 
+        #region TagsProperty
+        private ObservableCollection<Tag> _Tags;
+
+        public ObservableCollection<Tag> Tags
+        {
+            get
+            { return _Tags; }
+            set
+            { 
+                if (_Tags == value)
+                    return;
+                _Tags = value;
+                RaisePropertyChanged();
+            }
+        }
+        #endregion
 
         public async void Initialize()
         {
@@ -61,6 +78,8 @@ namespace ThanksCardClient.ViewModels
             {
                 this.Users = await SessionService.Instance.AuthorizedUser.GetUsersAsync();
             }
+            var tag = new Tag();
+            this.Tags = await tag.GetTagsAsync();
         }
 
         #region SubmitCommand
@@ -80,7 +99,20 @@ namespace ThanksCardClient.ViewModels
 
         public async void Submit()
         {
+            System.Diagnostics.Debug.WriteLine(this.Tags);
+
+            //選択された Tag を取得し、ThanksCard.ThanksCardTags にセットする。
+            List<ThanksCardTag> ThanksCardTags = new List<ThanksCardTag>();
+            foreach (var tag in this.Tags.Where(t => t.Selected))
+            {
+                ThanksCardTag thanksCardTag = new ThanksCardTag();
+                thanksCardTag.TagId = tag.Id;
+                ThanksCardTags.Add(thanksCardTag);
+            }
+            this.ThanksCard.ThanksCardTags = ThanksCardTags;
+
             ThanksCard createdThanksCard = await ThanksCard.PostThanksCardAsync(this.ThanksCard);
+
             //TODO: Error handling
             Messenger.Raise(new WindowActionMessage(WindowAction.Close, "Created"));
         }

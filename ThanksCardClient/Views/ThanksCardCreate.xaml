@@ -49,6 +49,13 @@
             <ComboBox ItemsSource="{Binding Users}" DisplayMemberPath="Name" SelectedValue="{Binding ThanksCard.ToId}" SelectedValuePath="Id"/>
             <TextBlock Text="作成日:"/>
             <DatePicker SelectedDate="{Binding ThanksCard.CreatedDateTime}"/>
+            <ListBox ItemsSource="{Binding Tags}" IsSynchronizedWithCurrentItem="True" SelectionMode="Multiple" DisplayMemberPath="Name">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="IsSelected" Value="{Binding Selected}" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
             <Button Content="作成" Command="{Binding SubmitCommand}"/>
         </StackPanel>
     </Grid>

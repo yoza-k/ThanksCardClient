@@ -42,6 +42,14 @@
                     <DataGridTextColumn Header="From" Binding="{Binding From.Name}" />
                     <DataGridTextColumn Header="To" Binding="{Binding To.Name}" />
                     <DataGridTextColumn Header="作成日時" Binding="{Binding CreatedDateTime}" />
+                    <DataGridTemplateColumn IsReadOnly="True" Header="タグ">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListBox ItemsSource="{Binding ThanksCardTags}" DisplayMemberPath="Tag.Name"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
