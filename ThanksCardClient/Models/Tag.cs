@@ -1,70 +1,41 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Livet;
 using ThanksCardClient.Services;
-using Newtonsoft.Json;
-using System.Collections.ObjectModel;
 
 namespace ThanksCardClient.Models
 {
-    public class Tag : NotificationObject
+    public class Tag : BindableBase
     {
-        /*
-         * NotificationObjectはプロパティ変更通知の仕組みを実装したオブジェクトです。
-         */
-
-
         #region IdProperty
         private long _Id;
-
         public long Id
         {
-            get
-            { return _Id; }
-            set
-            {
-                if (_Id == value)
-                    return;
-                _Id = value;
-                RaisePropertyChanged();
-            }
+            get { return _Id; }
+            set { SetProperty(ref _Id, value); }
         }
         #endregion
 
         #region NameProperty
         private string _Name;
-        [JsonProperty("Name")]
         public string Name
         {
-            get
-            { return _Name; }
-            set
-            {
-                if (_Name == value)
-                    return;
-                _Name = value;
-                RaisePropertyChanged();
-            }
+            get { return _Name; }
+            set { SetProperty(ref _Name, value); }
         }
         #endregion
 
         #region ThanksCardTagsProperty
         private List<ThanksCardTag> _ThanksCardTags;
-
         public List<ThanksCardTag> ThanksCardTags
         {
-            get
-            { return _ThanksCardTags; }
-            set
-            {
-                if (_ThanksCardTags == value)
-                    return;
-                _ThanksCardTags = value;
-                RaisePropertyChanged();
-            }
+            get { return _ThanksCardTags; }
+            set { SetProperty(ref _ThanksCardTags, value); }
         }
         #endregion
 
@@ -75,14 +46,8 @@ namespace ThanksCardClient.Models
         [JsonIgnore]
         public bool Selected
         {
-            get
-            { return _Selected; }
-            set
-            {
-                if (_Selected == value)
-                    return;
-                _Selected = value;
-            }
+            get { return _Selected; }
+            set { SetProperty(ref _Selected, value); }
         }
         #endregion
 
@@ -113,5 +78,7 @@ namespace ThanksCardClient.Models
             Tag deletedTag = await rest.DeleteTagAsync(Id);
             return deletedTag;
         }
+
+
     }
 }

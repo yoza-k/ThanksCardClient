@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using ThanksCardClient.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Collections.ObjectModel;
 
 namespace ThanksCardClient.Services
 {

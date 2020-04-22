@@ -1,36 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
+﻿using ThanksCardClient.Views;
+using Prism.Ioc;
+using Prism.Modularity;
 using System.Windows;
-
-using Livet;
 
 namespace ThanksCardClient
 {
     /// <summary>
-    /// App.xaml の相互作用ロジック
+    /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
-        private void Application_Startup(object sender, StartupEventArgs e)
+        protected override Window CreateShell()
         {
-            DispatcherHelper.UIDispatcher = Dispatcher;
-            //AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            return Container.Resolve<MainWindow>();
         }
 
-        //集約エラーハンドラ
-        //private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        //{
-        //    //TODO:ロギング処理など
-        //    MessageBox.Show(
-        //        "不明なエラーが発生しました。アプリケーションを終了します。",
-        //        "エラー",
-        //        MessageBoxButton.OK,
-        //        MessageBoxImage.Error);
-        //
-        //    Environment.Exit(1);
-        //}
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterForNavigation<MainWindow>();
+            containerRegistry.RegisterForNavigation<Header>();
+            containerRegistry.RegisterForNavigation<Logon>();
+            containerRegistry.RegisterForNavigation<Footer>();
+            containerRegistry.RegisterForNavigation<ThanksCardCreate>();
+            containerRegistry.RegisterForNavigation<ThanksCardList>();
+            containerRegistry.RegisterForNavigation<UserMst>();
+            containerRegistry.RegisterForNavigation<UserCreate>();
+            containerRegistry.RegisterForNavigation<UserEdit>();
+            containerRegistry.RegisterForNavigation<DepartmentMst>();
+            containerRegistry.RegisterForNavigation<DepartmentCreate>();
+            containerRegistry.RegisterForNavigation<DepartmentEdit>();
+            containerRegistry.RegisterForNavigation<TagMst>();
+            containerRegistry.RegisterForNavigation<TagCreate>();
+            containerRegistry.RegisterForNavigation<TagEdit>();
+        }
     }
 }

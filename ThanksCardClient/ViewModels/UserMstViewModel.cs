@@ -1,41 +1,35 @@
-﻿using System;
+﻿using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.ComponentModel;
-
-using Livet;
-using Livet.Commands;
-using Livet.Messaging;
-using Livet.Messaging.IO;
-using Livet.EventListeners;
-using Livet.Messaging.Windows;
-
+using System.Runtime.CompilerServices;
 using ThanksCardClient.Models;
 using ThanksCardClient.Services;
 
 namespace ThanksCardClient.ViewModels
 {
-    public class UserMstViewModel : ViewModel
+    public class UserMstViewModel : BindableBase, INavigationAware
     {
+        private readonly IRegionManager regionManager;
+
         #region UsersProperty
         private List<User> _Users;
-
         public List<User> Users
         {
-            get
-            { return _Users; }
-            set
-            {
-                if (_Users == value)
-                    return;
-                _Users = value;
-                RaisePropertyChanged();
-            }
+            get { return _Users; }
+            set { SetProperty(ref _Users, value); }
         }
         #endregion
 
-        public void Initialize()
+
+        public UserMstViewModel(IRegionManager regionManager)
+        {
+            this.regionManager = regionManager;
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
         {
             this.UpdateUsers();
         }
@@ -48,81 +42,55 @@ namespace ThanksCardClient.ViewModels
             }
         }
 
-        #region UserCreateCommand
-        private ViewModelCommand _UserCreateCommand;
-
-        public ViewModelCommand UserCreateCommand
+        public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            get
-            {
-                if (_UserCreateCommand == null)
-                {
-                    _UserCreateCommand = new ViewModelCommand(UserCreate);
-                }
-                return _UserCreateCommand;
-            }
+            return true;
         }
 
-        public void UserCreate()
+        public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            System.Diagnostics.Debug.WriteLine("UserCreate");
-            UserCreateViewModel ViewModel = new UserCreateViewModel();
-            var message = new TransitionMessage(typeof(Views.UserCreate), ViewModel, TransitionMode.Modal, "UserCreate");
-            Messenger.Raise(message);
+            //throw new NotImplementedException();
+        }
 
-            //ユーザリストを更新する
-            this.UpdateUsers();
+        #region UserCreateCommand
+        private DelegateCommand _UserCreateCommand;
+        public DelegateCommand UserCreateCommand =>
+            _UserCreateCommand ?? (_UserCreateCommand = new DelegateCommand(ExecuteUserCreateCommand));
+
+        void ExecuteUserCreateCommand()
+        {
+            this.regionManager.RequestNavigate("ContentRegion", nameof(Views.UserCreate));
         }
         #endregion
 
         #region UserEditCommand
-        private ListenerCommand<User> _UserEditCommand;
 
-        public ListenerCommand<User> UserEditCommand
-        {
-            get
-            {
-                if (_UserEditCommand == null)
-                {
-                    _UserEditCommand = new ListenerCommand<User>(UserEdit);
-                }
-                return _UserEditCommand;
-            }
-        }
+        private DelegateCommand<User> _UserEditCommand;
+        public DelegateCommand<User> UserEditCommand =>
+            _UserEditCommand ?? (_UserEditCommand = new DelegateCommand<User>(ExecuteUserEditCommand));
 
-        public void UserEdit(User User)
+        void ExecuteUserEditCommand(User SelectedUser)
         {
-            System.Diagnostics.Debug.WriteLine("EditCommand" + User.Id);
-            UserEditViewModel ViewModel = new UserEditViewModel();
-            ViewModel.User = User;
-            var message = new TransitionMessage(typeof(Views.UserEdit), ViewModel, TransitionMode.Modal, "UserEdit");
-            Messenger.Raise(message);
+            // 対象のUserをパラメーターとして画面遷移先に渡す。
+            var parameters = new NavigationParameters();
+            parameters.Add("SelectedUser", SelectedUser);
+
+            this.regionManager.RequestNavigate("ContentRegion", nameof(Views.UserEdit), parameters);
         }
         #endregion
 
         #region UserDeleteCommand
-        private ListenerCommand<User> _UserDeleteCommand;
+        private DelegateCommand<User> _UserDeleteCommand;
+        public DelegateCommand<User> UserDeleteCommand =>
+            _UserDeleteCommand ?? (_UserDeleteCommand = new DelegateCommand<User>(ExecuteUserDeleteCommand));
 
-        public ListenerCommand<User> UserDeleteCommand
+        async void ExecuteUserDeleteCommand(User SelectedUser)
         {
-            get
-            {
-                if (_UserDeleteCommand == null)
-                {
-                    _UserDeleteCommand = new ListenerCommand<User>(UserDelete);
-                }
-                return _UserDeleteCommand;
-            }
-        }
+            User deletedUser = await SelectedUser.DeleteUserAsync(SelectedUser.Id);
 
-        public async void UserDelete(User User)
-        {
-            System.Diagnostics.Debug.WriteLine("DeleteCommand" + User.Id);
-            User deletedUser = await User.DeleteUserAsync(User.Id);
-
-            this.Initialize();
+            // ユーザ一覧 Users を更新する。
+            this.UpdateUsers();
         }
         #endregion
-
     }
 }

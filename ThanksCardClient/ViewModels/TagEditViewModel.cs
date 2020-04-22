@@ -1,86 +1,67 @@
-﻿using System;
+﻿using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.ComponentModel;
-
-using Livet;
-using Livet.Commands;
-using Livet.Messaging;
-using Livet.Messaging.IO;
-using Livet.EventListeners;
-using Livet.Messaging.Windows;
-
 using ThanksCardClient.Models;
 
 namespace ThanksCardClient.ViewModels
 {
-    public class TagEditViewModel : ViewModel
+    public class TagEditViewModel : BindableBase, INavigationAware
     {
+        private readonly IRegionManager regionManager;
+
         #region TagProperty
         private Tag _Tag;
-
         public Tag Tag
         {
-            get
-            { return _Tag; }
-            set
-            {
-                if (_Tag == value)
-                    return;
-                _Tag = value;
-                RaisePropertyChanged();
-            }
+            get { return _Tag; }
+            set { SetProperty(ref _Tag, value); }
         }
         #endregion
 
-        #region EditingTagProperty
-        private Tag _EditingTag;
-
-        public Tag EditingTag
+        #region ErrorMessageProperty
+        private string _ErrorMessage;
+        public string ErrorMessage
         {
-            get
-            { return _EditingTag; }
-            set
-            {
-                if (_EditingTag == value)
-                    return;
-                _EditingTag = value;
-                RaisePropertyChanged();
-            }
+            get { return _ErrorMessage; }
+            set { SetProperty(ref _ErrorMessage, value); }
         }
         #endregion
 
-        public void Initialize()
+        public TagEditViewModel(IRegionManager regionManager)
         {
-            this.EditingTag = new Tag();
-            if (this.Tag != null)
-            {
-                EditingTag.Name = this.Tag.Name;
-            }
+            this.regionManager = regionManager;
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            // 画面遷移元から送られる SelectedUser パラメーターを取得。
+            this.Tag = navigationContext.Parameters.GetValue<Tag>("SelectedTag");
         }
 
         #region SubmitCommand
-        private ViewModelCommand _SubmitCommand;
+        private DelegateCommand _SubmitCommand;
+        public DelegateCommand SubmitCommand =>
+            _SubmitCommand ?? (_SubmitCommand = new DelegateCommand(ExecuteSubmitCommand));
 
-        public ViewModelCommand SubmitCommand
+        async void ExecuteSubmitCommand()
         {
-            get
-            {
-                if (_SubmitCommand == null)
-                {
-                    _SubmitCommand = new ViewModelCommand(Submit);
-                }
-                return _SubmitCommand;
-            }
-        }
+            Tag updatedTag = await this.Tag.PutTagAsync(this.Tag);
 
-        public async void Submit()
-        {
-            this.Tag.Name = this.EditingTag.Name;
-            Tag updatedTag = await Tag.PutTagAsync(this.Tag);
-            //TODO: Error handling
-            Messenger.Raise(new WindowActionMessage(WindowAction.Close, "Edited"));
+            this.regionManager.RequestNavigate("ContentRegion", nameof(Views.TagMst));
         }
         #endregion
 

@@ -1,41 +1,42 @@
-﻿using System;
+﻿using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.ComponentModel;
-
-using Livet;
-using Livet.Commands;
-using Livet.Messaging;
-using Livet.Messaging.IO;
-using Livet.EventListeners;
-using Livet.Messaging.Windows;
-
 using ThanksCardClient.Models;
-using ThanksCardClient.Services;
 
 namespace ThanksCardClient.ViewModels
 {
-    public class DepartmentMstViewModel : ViewModel
+    public class DepartmentMstViewModel : BindableBase, INavigationAware
     {
+        private readonly IRegionManager regionManager;
+
         #region DepartmentsProperty
         private List<Department> _Departments;
-
         public List<Department> Departments
         {
-            get
-            { return _Departments; }
-            set
-            {
-                if (_Departments == value)
-                    return;
-                _Departments = value;
-                RaisePropertyChanged();
-            }
+            get { return _Departments; }
+            set { SetProperty(ref _Departments, value); }
         }
         #endregion
 
-        public void Initialize()
+        public DepartmentMstViewModel(IRegionManager regionManager)
+        {
+            this.regionManager = regionManager;
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
         {
             this.UpdateDepartments();
         }
@@ -47,80 +48,43 @@ namespace ThanksCardClient.ViewModels
         }
 
         #region DepartmentCreateCommand
-        private ViewModelCommand _DepartmentCreateCommand;
+        private DelegateCommand _DepartmentCreateCommand;
+        public DelegateCommand DepartmentCreateCommand =>
+            _DepartmentCreateCommand ?? (_DepartmentCreateCommand = new DelegateCommand(ExecuteDepartmentCreateCommand));
 
-        public ViewModelCommand DepartmentCreateCommand
+        void ExecuteDepartmentCreateCommand()
         {
-            get
-            {
-                if (_DepartmentCreateCommand == null)
-                {
-                    _DepartmentCreateCommand = new ViewModelCommand(DepartmentCreate);
-                }
-                return _DepartmentCreateCommand;
-            }
-        }
-
-        public void DepartmentCreate()
-        {
-            System.Diagnostics.Debug.WriteLine("DepartmentCreate");
-            DepartmentCreateViewModel ViewModel = new DepartmentCreateViewModel();
-            var message = new TransitionMessage(typeof(Views.DepartmentCreate), ViewModel, TransitionMode.Modal, "DepartmentCreate");
-            Messenger.Raise(message);
-
-            //ユーザリストを更新する
-            this.UpdateDepartments();
+            this.regionManager.RequestNavigate("ContentRegion", nameof(Views.DepartmentCreate));
         }
         #endregion
 
         #region DepartmentEditCommand
-        private ListenerCommand<Department> _DepartmentEditCommand;
+        private DelegateCommand<Department> _DepartmentEditCommand;
+        public DelegateCommand<Department> DepartmentEditCommand =>
+            _DepartmentEditCommand ?? (_DepartmentEditCommand = new DelegateCommand<Department>(ExecuteDepartmentEditCommand));
 
-        public ListenerCommand<Department> DepartmentEditCommand
+        void ExecuteDepartmentEditCommand(Department SelectedDepartment)
         {
-            get
-            {
-                if (_DepartmentEditCommand == null)
-                {
-                    _DepartmentEditCommand = new ListenerCommand<Department>(DepartmentEdit);
-                }
-                return _DepartmentEditCommand;
-            }
-        }
+            // 対象のDepartmentをパラメーターとして画面遷移先に渡す。
+            var parameters = new NavigationParameters();
+            parameters.Add("SelectedDepartment", SelectedDepartment);
 
-        public void DepartmentEdit(Department Department)
-        {
-            System.Diagnostics.Debug.WriteLine("EditCommand" + Department.Id);
-            DepartmentEditViewModel ViewModel = new DepartmentEditViewModel();
-            ViewModel.Department = Department;
-            var message = new TransitionMessage(typeof(Views.DepartmentEdit), ViewModel, TransitionMode.Modal, "DepartmentEdit");
-            Messenger.Raise(message);
+            this.regionManager.RequestNavigate("ContentRegion", nameof(Views.DepartmentEdit), parameters);
         }
         #endregion
 
         #region DepartmentDeleteCommand
-        private ListenerCommand<Department> _DepartmentDeleteCommand;
+        private DelegateCommand<Department> _DepartmentDeleteCommand;
+        public DelegateCommand<Department> DepartmentDeleteCommand =>
+            _DepartmentDeleteCommand ?? (_DepartmentDeleteCommand = new DelegateCommand<Department>(ExecuteDepartmentDeleteCommand));
 
-        public ListenerCommand<Department> DepartmentDeleteCommand
+        async void ExecuteDepartmentDeleteCommand(Department SelectedDepartment)
         {
-            get
-            {
-                if (_DepartmentDeleteCommand == null)
-                {
-                    _DepartmentDeleteCommand = new ListenerCommand<Department>(DepartmentDelete);
-                }
-                return _DepartmentDeleteCommand;
-            }
-        }
+            Department deletedDepartment = await SelectedDepartment.DeleteDepartmentAsync(SelectedDepartment.Id);
 
-        public async void DepartmentDelete(Department Department)
-        {
-            System.Diagnostics.Debug.WriteLine("DeleteCommand" + Department.Id);
-            Department deletedDepartment = await Department.DeleteDepartmentAsync(Department.Id);
-
-            this.Initialize();
+            // 一覧 Departments を更新する。
+            this.UpdateDepartments();
         }
         #endregion
-
     }
 }

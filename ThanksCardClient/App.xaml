@@ -1,9 +1,9 @@
-﻿<Application x:Class="ThanksCardClient.App"
+﻿<prism:PrismApplication x:Class="ThanksCardClient.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="Views\MainWindow.xaml"
-             Startup="Application_Startup">
+	     xmlns:prism="http://prismlibrary.com/"
+             xmlns:local="clr-namespace:ThanksCardClient">
     <Application.Resources>
          
     </Application.Resources>
-</Application>
+</prism:PrismApplication>
