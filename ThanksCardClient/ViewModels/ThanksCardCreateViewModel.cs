@@ -23,12 +23,30 @@ namespace ThanksCardClient.ViewModels
         }
         #endregion
 
-        #region UsersProperty
-        private List<User> _Users;
-        public List<User> Users
+        #region FromUsersProperty
+        private List<User> _FromUsers;
+        public List<User> FromUsers
         {
-            get { return _Users; }
-            set { SetProperty(ref _Users, value); }
+            get { return _FromUsers; }
+            set { SetProperty(ref _FromUsers, value); }
+        }
+        #endregion
+
+        #region ToUsersProperty
+        private List<User> _ToUsers;
+        public List<User> ToUsers
+        {
+            get { return _ToUsers; }
+            set { SetProperty(ref _ToUsers, value); }
+        }
+        #endregion
+
+        #region DepartmentsProperty
+        private List<Department> _Departments;
+        public List<Department> Departments
+        {
+            get { return _Departments; }
+            set { SetProperty(ref _Departments, value); }
         }
         #endregion
 
@@ -51,12 +69,18 @@ namespace ThanksCardClient.ViewModels
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
             this.ThanksCard = new ThanksCard();
+            
             if (SessionService.Instance.AuthorizedUser != null)
             {
-                this.Users = await SessionService.Instance.AuthorizedUser.GetUsersAsync();
+                this.FromUsers = await SessionService.Instance.AuthorizedUser.GetUsersAsync();
+                this.ToUsers = this.FromUsers;
             }
+
             var tag = new Tag();
             this.Tags = await tag.GetTagsAsync();
+
+            var dept = new Department();
+            this.Departments = await dept.GetDepartmentsAsync();
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -68,6 +92,28 @@ namespace ThanksCardClient.ViewModels
         {
             //throw new NotImplementedException();
         }
+
+        #region FromDepartmentsChangedCommand
+        private DelegateCommand<long?> _FromDepartmentsChangedCommand;
+        public DelegateCommand<long?> FromDepartmentsChangedCommand =>
+            _FromDepartmentsChangedCommand ?? (_FromDepartmentsChangedCommand = new DelegateCommand<long?>(ExecuteFromDepartmentsChangedCommand));
+
+        async void ExecuteFromDepartmentsChangedCommand(long? FromDepartmentId)
+        {
+            this.FromUsers = await SessionService.Instance.AuthorizedUser.GetDepartmentUsersAsync(FromDepartmentId);
+        }
+        #endregion
+
+        #region ToDepartmentsChangedCommand
+        private DelegateCommand<long?> _ToDepartmentsChangedCommand;
+        public DelegateCommand<long?> ToDepartmentsChangedCommand =>
+            _ToDepartmentsChangedCommand ?? (_ToDepartmentsChangedCommand = new DelegateCommand<long?>(ExecuteToDepartmentsChangedCommand));
+
+        async void ExecuteToDepartmentsChangedCommand(long? ToDepartmentId)
+        {
+            this.ToUsers = await SessionService.Instance.AuthorizedUser.GetDepartmentUsersAsync(ToDepartmentId);
+        }
+        #endregion
 
         #region SubmitCommand
         private DelegateCommand _SubmitCommand;

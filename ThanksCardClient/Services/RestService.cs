@@ -49,6 +49,25 @@ namespace ThanksCardClient.Services
             return responseUser;
         }
 
+        public async Task<List<User>> GetDepartmentUsersAsync(long? DepartmentId)
+        {
+            List<User> responseUsers = null;
+            try
+            {
+                var response = await Client.GetAsync(this.BaseUrl + "/api/DepartmentUsers/" + DepartmentId);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    responseUsers = JsonConvert.DeserializeObject<List<User>>(responseContent);
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception in RestService.GetUsersAsync: " + e);
+            }
+            return responseUsers;
+        }
+
         public async Task<List<User>> GetUsersAsync()
         {
             List<User> responseUsers = null;

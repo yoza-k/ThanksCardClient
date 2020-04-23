@@ -71,6 +71,13 @@ namespace ThanksCardClient.Models
             return authorizedUser;
         }
 
+        public async Task<List<User>> GetDepartmentUsersAsync(long? DepartmentId)
+        {
+            IRestService rest = new RestService();
+            List<User> users = await rest.GetDepartmentUsersAsync(DepartmentId);
+            return users;
+        }
+
         public async Task<List<User>> GetUsersAsync()
         {
             IRestService rest = new RestService();
