@@ -21,6 +21,15 @@ namespace ThanksCardClient.ViewModels
         }
         #endregion
 
+        #region DepartmentsProperty
+        private List<Department> _Departments;
+        public List<Department> Departments
+        {
+            get { return _Departments; }
+            set { SetProperty(ref _Departments, value); }
+        }
+        #endregion
+
         #region ErrorMessageProperty
         private string _ErrorMessage;
         public string ErrorMessage
@@ -50,6 +59,14 @@ namespace ThanksCardClient.ViewModels
         {
             // 画面遷移元から送られる SelectedTag パラメーターを取得。
             this.Department = navigationContext.Parameters.GetValue<Department>("SelectedDepartment");
+
+            this.UpdateDepartments();
+        }
+
+        private async void UpdateDepartments()
+        {
+            Department dept = new Department();
+            this.Departments = await dept.GetDepartmentsAsync();
         }
 
         #region SubmitCommand
