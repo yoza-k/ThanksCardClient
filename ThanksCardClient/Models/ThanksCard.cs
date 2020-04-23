@@ -1,177 +1,100 @@
-﻿using System;
+﻿using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Livet;
 using ThanksCardClient.Services;
-using Newtonsoft.Json;
 
 namespace ThanksCardClient.Models
 {
-    public class ThanksCard : NotificationObject
+    public class ThanksCard : BindableBase
     {
-        /*
-         * NotificationObjectはプロパティ変更通知の仕組みを実装したオブジェクトです。
-         */
-
-
         #region IdProperty
         private long _Id;
-
         public long Id
         {
-            get
-            { return _Id; }
-            set
-            { 
-                if (_Id == value)
-                    return;
-                _Id = value;
-                RaisePropertyChanged();
-            }
+            get { return _Id; }
+            set { SetProperty(ref _Id, value); }
         }
         #endregion
 
         #region TitleProperty
         private string _Title;
-        [JsonProperty("Title")]
         public string Title
         {
-            get
-            { return _Title; }
-            set
-            { 
-                if (_Title == value)
-                    return;
-                _Title = value;
-                RaisePropertyChanged();
-            }
+            get { return _Title; }
+            set { SetProperty(ref _Title, value); }
         }
         #endregion
 
         #region BodyProperty
         private string _Body;
-        [JsonProperty("Body")]
         public string Body
         {
-            get
-            { return _Body; }
-            set
-            { 
-                if (_Body == value)
-                    return;
-                _Body = value;
-                RaisePropertyChanged();
-            }
+            get { return _Body; }
+            set { SetProperty(ref _Body, value); }
         }
         #endregion
 
         #region FromIdProperty
         private long _FromId;
-
         public long FromId
         {
-            get
-            { return _FromId; }
-            set
-            { 
-                if (_FromId == value)
-                    return;
-                _FromId = value;
-                RaisePropertyChanged();
-            }
+            get { return _FromId; }
+            set { SetProperty(ref _FromId, value); }
         }
         #endregion
 
         #region FromProperty
         private User _From;
-
         public User From
         {
-            get
-            { return _From; }
-            set
-            { 
-                if (_From == value)
-                    return;
-                _From = value;
-                RaisePropertyChanged();
-            }
+            get { return _From; }
+            set { SetProperty(ref _From, value); }
         }
         #endregion
 
         #region ToIdProperty
         private long _ToId;
-
         public long ToId
         {
-            get
-            { return _ToId; }
-            set
-            { 
-                if (_ToId == value)
-                    return;
-                _ToId = value;
-                RaisePropertyChanged();
-            }
+            get { return _ToId; }
+            set { SetProperty(ref _ToId, value); }
         }
         #endregion
 
         #region ToProperty
         private User _To;
-
         public User To
         {
-            get
-            { return _To; }
-            set
-            { 
-                if (_To == value)
-                    return;
-                _To = value;
-                RaisePropertyChanged();
-            }
+            get { return _To; }
+            set { SetProperty(ref _To, value); }
         }
         #endregion
 
         #region CreatedDateTimeProperty
         private DateTime _CreatedDateTime;
-
         public DateTime CreatedDateTime
         {
-            get
-            { return _CreatedDateTime; }
-            set
-            { 
-                if (_CreatedDateTime == value)
-                    return;
-                _CreatedDateTime = value;
-                RaisePropertyChanged();
-            }
+            get { return _CreatedDateTime; }
+            set { SetProperty(ref _CreatedDateTime, value); }
         }
         #endregion
 
         #region ThanksCardTagsProperty
         private List<ThanksCardTag> _ThanksCardTags;
-
         public List<ThanksCardTag> ThanksCardTags
         {
-            get
-            { return _ThanksCardTags; }
-            set
-            { 
-                if (_ThanksCardTags == value)
-                    return;
-                _ThanksCardTags = value;
-                RaisePropertyChanged();
-            }
+            get { return _ThanksCardTags; }
+            set { SetProperty(ref _ThanksCardTags, value); }
         }
         #endregion
 
+
         public ThanksCard()
         {
-            this.CreatedDateTime = DateTime.Now;
+            this.CreatedDateTime = DateTime.Now; 
         }
 
         public async Task<List<ThanksCard>> GetThanksCardsAsync()
@@ -187,6 +110,5 @@ namespace ThanksCardClient.Models
             ThanksCard createdThanksCard = await rest.PostThanksCardAsync(thanksCard);
             return createdThanksCard;
         }
-
     }
 }

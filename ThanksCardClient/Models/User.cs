@@ -1,120 +1,66 @@
-﻿using System;
+﻿using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Livet;
 using ThanksCardClient.Services;
-using Newtonsoft.Json;
 
 namespace ThanksCardClient.Models
 {
-    public class User : NotificationObject
+    public class User : BindableBase
     {
-        /*
-         * NotificationObjectはプロパティ変更通知の仕組みを実装したオブジェクトです。
-         */
-
-
         #region IdProperty
         private long _Id;
-
         public long Id
         {
-            get
-            { return _Id; }
-            set
-            { 
-                if (_Id == value)
-                    return;
-                _Id = value;
-                RaisePropertyChanged();
-            }
+            get { return _Id; }
+            set { SetProperty(ref _Id, value); }
         }
         #endregion
 
         #region NameProperty
         private string _Name;
-        [JsonProperty("Name")]
         public string Name
         {
-            get
-            { return _Name; }
-            set
-            { 
-                if (_Name == value)
-                    return;
-                _Name = value;
-                RaisePropertyChanged();
-            }
+            get { return _Name; }
+            set { SetProperty(ref _Name, value); }
         }
         #endregion
 
         #region PasswordProperty
         private string _Password;
-        [JsonProperty("Password")]
         public string Password
         {
-            get
-            { return _Password; }
-            set
-            { 
-                if (_Password == value)
-                    return;
-                _Password = value;
-                RaisePropertyChanged();
-            }
+            get { return _Password; }
+            set { SetProperty(ref _Password, value); }
         }
         #endregion
 
         #region IsAdminProperty
         private bool _IsAdmin;
-        [JsonProperty("IsAdmin")]
         public bool IsAdmin
         {
-            get
-            { return _IsAdmin; }
-            set
-            {
-                if (_IsAdmin == value)
-                    return;
-                _IsAdmin = value;
-                RaisePropertyChanged();
-            }
+            get { return _IsAdmin; }
+            set { SetProperty(ref _IsAdmin, value); }
         }
         #endregion
 
         #region DepartmentIdProperty
         private long? _DepartmentId;
-
         public long? DepartmentId
         {
-            get
-            { return _DepartmentId; }
-            set
-            { 
-                if (_DepartmentId == value)
-                    return;
-                _DepartmentId = value;
-                RaisePropertyChanged();
-            }
+            get { return _DepartmentId; }
+            set { SetProperty(ref _DepartmentId, value); }
         }
         #endregion
 
         #region DepartmentProperty
         private Department _Department;
-
         public Department Department
         {
-            get
-            { return _Department; }
-            set
-            { 
-                if (_Department == value)
-                    return;
-                _Department = value;
-                RaisePropertyChanged();
-            }
+            get { return _Department; }
+            set { SetProperty(ref _Department, value); }
         }
         #endregion
 
@@ -125,10 +71,17 @@ namespace ThanksCardClient.Models
             return authorizedUser;
         }
 
+        public async Task<List<User>> GetDepartmentUsersAsync(long? DepartmentId)
+        {
+            IRestService rest = new RestService();
+            List<User> users = await rest.GetDepartmentUsersAsync(DepartmentId);
+            return users;
+        }
+
         public async Task<List<User>> GetUsersAsync()
         {
             IRestService rest = new RestService();
-            List<User> users  = await rest.GetUsersAsync();
+            List<User> users = await rest.GetUsersAsync();
             return users;
         }
 

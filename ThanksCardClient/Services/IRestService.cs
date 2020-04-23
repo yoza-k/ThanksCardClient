@@ -1,10 +1,10 @@
-﻿using ThanksCardClient.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.ObjectModel;
+using ThanksCardClient.Models;
 
 namespace ThanksCardClient.Services
 {
@@ -12,6 +12,9 @@ namespace ThanksCardClient.Services
     {
         // Logon REST API Client
         Task<User> LogonAsync(User user);
+
+        // DepartmentUsers REST API Client
+        Task<List<User>> GetDepartmentUsersAsync(long? DepartmentId);
 
         // User REST API Client
         Task<List<User>> GetUsersAsync();
@@ -30,7 +33,7 @@ namespace ThanksCardClient.Services
         Task<ThanksCard> PostThanksCardAsync(ThanksCard thanksCard);
 
         // Tag REST API Client
-        Task<ObservableCollection<Tag>> GetTagsAsync();
+        Task<List<Tag>> GetTagsAsync();
         Task<Tag> PostTagAsync(Tag tag);
         Task<Tag> PutTagAsync(Tag tag);
         Task<Tag> DeleteTagAsync(long Id);

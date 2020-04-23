@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using ThanksCardClient.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Collections.ObjectModel;
 
 namespace ThanksCardClient.Services
 {
@@ -48,6 +47,25 @@ namespace ThanksCardClient.Services
                 System.Diagnostics.Debug.WriteLine("Exception in RestService.LogonAsync: " + e);
             }
             return responseUser;
+        }
+
+        public async Task<List<User>> GetDepartmentUsersAsync(long? DepartmentId)
+        {
+            List<User> responseUsers = null;
+            try
+            {
+                var response = await Client.GetAsync(this.BaseUrl + "/api/DepartmentUsers/" + DepartmentId);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    responseUsers = JsonConvert.DeserializeObject<List<User>>(responseContent);
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception in RestService.GetUsersAsync: " + e);
+            }
+            return responseUsers;
         }
 
         public async Task<List<User>> GetUsersAsync()
@@ -275,16 +293,16 @@ namespace ThanksCardClient.Services
             return responseThanksCard;
         }
 
-        public async Task<ObservableCollection<Tag>> GetTagsAsync()
+        public async Task<List<Tag>> GetTagsAsync()
         {
-            ObservableCollection<Tag> responseTags = null;
+            List<Tag> responseTags = null;
             try
             {
                 var response = await Client.GetAsync(this.BaseUrl + "/api/Tags");
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    responseTags = JsonConvert.DeserializeObject<ObservableCollection<Tag>>(responseContent);
+                    responseTags = JsonConvert.DeserializeObject<List<Tag>>(responseContent);
                 }
             }
             catch (Exception e)

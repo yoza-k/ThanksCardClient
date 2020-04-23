@@ -1,46 +1,8 @@
-﻿<Window x:Class="ThanksCardClient.Views.DepartmentMst"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-        xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
-        xmlns:v="clr-namespace:ThanksCardClient.Views"
-        xmlns:vm="clr-namespace:ThanksCardClient.ViewModels"
-        Title="DepartmentMst" Height="350" Width="525">
-    
-    <Window.DataContext>
-        <vm:DepartmentMstViewModel/>
-    </Window.DataContext>
-    
-     <i:Interaction.Triggers>
-     
-     	<!--Viewに特別な要件が存在しない限りは、トリガーやアクションの自作にこだわらず積極的にコードビハインドを使いましょう -->
-    	<!--Viewのコードビハインドは、基本的にView内で完結するロジックとViewModelからのイベントの受信(専用リスナを使用する)に限るとトラブルが少なくなります -->
-    	<!--Livet1.1からはコードビハインドでViewModelのイベントを受信するためのWeakEventLisnterサポートが追加されています --> 
-        
-        <!--WindowのContentRenderedイベントのタイミングでViewModelのInitializeメソッドが呼ばれます-->
-        <i:EventTrigger EventName="ContentRendered">
-            <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="Initialize"/>
-        </i:EventTrigger>
-
-        <!--Windowが閉じたタイミングでViewModelのDisposeメソッドが呼ばれます-->
-        <i:EventTrigger EventName="Closed">
-            <l:DataContextDisposeAction/>
-        </i:EventTrigger>
-
-        <!--WindowのCloseキャンセル処理に対応する場合は、WindowCloseCancelBehaviorの使用を検討してください-->
-
-        <!-- MainWindowViewModel からの TransitionMessage("DepartmentCreate") を受け取とって新規作成画面を表示する処理。 -->
-        <l:InteractionMessageTrigger MessageKey="DepartmentCreate" Messenger="{Binding Messenger}">
-            <l:TransitionInteractionMessageAction/>
-        </l:InteractionMessageTrigger>
-        <!-- MainWindowViewModel からの TransitionMessage("DepartmentEdit") を受け取とって編集画面を表示する処理。 -->
-        <l:InteractionMessageTrigger MessageKey="DepartmentEdit" Messenger="{Binding Messenger}">
-            <l:TransitionInteractionMessageAction/>
-        </l:InteractionMessageTrigger>
-
-    </i:Interaction.Triggers>
-    
+﻿<UserControl x:Class="ThanksCardClient.Views.DepartmentMst"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <StackPanel>
             <Button Content="+部署の新規作成" Command="{Binding DepartmentCreateCommand}" Width="100" HorizontalAlignment="Left"/>
@@ -71,4 +33,4 @@
             </DataGrid>
         </StackPanel>
     </Grid>
-</Window>
+</UserControl>

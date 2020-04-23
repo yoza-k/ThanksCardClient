@@ -1,64 +1,52 @@
-﻿using System;
+﻿using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.ComponentModel;
-
-using Livet;
-using Livet.Commands;
-using Livet.Messaging;
-using Livet.Messaging.IO;
-using Livet.EventListeners;
-using Livet.Messaging.Windows;
-
 using ThanksCardClient.Models;
 
 namespace ThanksCardClient.ViewModels
 {
-    public class TagCreateViewModel : ViewModel
+    public class TagCreateViewModel : BindableBase
     {
-        #region Tag変更通知プロパティ
-        private Tag _Tag;
+        private readonly IRegionManager regionManager;
 
+        #region TagProperty
+        private Tag _Tag;
         public Tag Tag
         {
-            get
-            { return _Tag; }
-            set
-            {
-                if (_Tag == value)
-                    return;
-                _Tag = value;
-                RaisePropertyChanged(nameof(Tag));
-            }
+            get { return _Tag; }
+            set { SetProperty(ref _Tag, value); }
         }
         #endregion
 
-        public async void Initialize()
+        #region ErrorMessageProperty
+        private string _ErrorMessage;
+        public string ErrorMessage
         {
+            get { return _ErrorMessage; }
+            set { SetProperty(ref _ErrorMessage, value); }
+        }
+        #endregion
+
+        public TagCreateViewModel(IRegionManager regionManager)
+        {
+            this.regionManager = regionManager;
+
             this.Tag = new Tag();
         }
 
         #region SubmitCommand
-        private ViewModelCommand _SubmitCommand;
+        private DelegateCommand _SubmitCommand;
+        public DelegateCommand SubmitCommand =>
+            _SubmitCommand ?? (_SubmitCommand = new DelegateCommand(ExecuteSubmitCommand));
 
-        public ViewModelCommand SubmitCommand
-        {
-            get
-            {
-                if (_SubmitCommand == null)
-                {
-                    _SubmitCommand = new ViewModelCommand(Submit);
-                }
-                return _SubmitCommand;
-            }
-        }
-
-        public async void Submit()
+        async void ExecuteSubmitCommand()
         {
             Tag createdTag = await Tag.PostTagAsync(this.Tag);
-            //TODO: Error handling
-            Messenger.Raise(new WindowActionMessage(WindowAction.Close, "Created"));
+
+            this.regionManager.RequestNavigate("ContentRegion", nameof(Views.TagMst));
         }
         #endregion
     }

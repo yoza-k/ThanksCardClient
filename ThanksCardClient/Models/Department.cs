@@ -1,137 +1,75 @@
-﻿using System;
+﻿using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Livet;
 using ThanksCardClient.Services;
-using Newtonsoft.Json;
 
 namespace ThanksCardClient.Models
 {
-    public class Department : NotificationObject
+    public class Department : BindableBase
     {
-        /*
-         * NotificationObjectはプロパティ変更通知の仕組みを実装したオブジェクトです。
-         */
-
-
         #region IdProperty
         private long _Id;
-
         public long Id
         {
-            get
-            { return _Id; }
-            set
-            { 
-                if (_Id == value)
-                    return;
-                _Id = value;
-                RaisePropertyChanged();
-            }
+            get { return _Id; }
+            set { SetProperty(ref _Id, value); }
         }
         #endregion
 
         #region CodeProperty
         private int _Code;
-
         public int Code
         {
-            get
-            { return _Code; }
-            set
-            { 
-                if (_Code == value)
-                    return;
-                _Code = value;
-                RaisePropertyChanged();
-            }
+            get { return _Code; }
+            set { SetProperty(ref _Code, value); }
         }
         #endregion
 
         #region NameProperty
         private string _Name;
-        [JsonProperty("Name")]
         public string Name
         {
-            get
-            { return _Name; }
-            set
-            { 
-                if (_Name == value)
-                    return;
-                _Name = value;
-                RaisePropertyChanged();
-            }
+            get { return _Name; }
+            set { SetProperty(ref _Name, value); }
         }
         #endregion
 
         #region ParentIdProperty
         private long? _ParentId;
-
         public long? ParentId
         {
-            get
-            { return _ParentId; }
-            set
-            { 
-                if (_ParentId == value)
-                    return;
-                _ParentId = value;
-                RaisePropertyChanged();
-            }
+            get { return _ParentId; }
+            set { SetProperty(ref _ParentId, value); }
         }
         #endregion
 
         #region ParentProperty
         private Department _Parent;
-
         public Department Parent
         {
-            get
-            { return _Parent; }
-            set
-            { 
-                if (_Parent == value)
-                    return;
-                _Parent = value;
-                RaisePropertyChanged();
-            }
+            get { return _Parent; }
+            set { SetProperty(ref _Parent, value); }
         }
         #endregion
 
         #region ChildrenProperty
         private List<Department> _Children;
-
         public List<Department> Children
         {
-            get
-            { return _Children; }
-            set
-            { 
-                if (_Children == value)
-                    return;
-                _Children = value;
-                RaisePropertyChanged();
-            }
+            get { return _Children; }
+            set { SetProperty(ref _Children, value); }
         }
         #endregion
 
         #region UsersProperty
         private List<User> _Users;
-
         public List<User> Users
         {
-            get
-            { return _Users; }
-            set
-            { 
-                if (_Users == value)
-                    return;
-                _Users = value;
-                RaisePropertyChanged();
-            }
+            get { return _Users; }
+            set { SetProperty(ref _Users, value); }
         }
         #endregion
 
