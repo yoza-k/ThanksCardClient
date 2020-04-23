@@ -51,10 +51,10 @@ namespace ThanksCardClient.Models
         }
         #endregion
 
-        public async Task<ObservableCollection<Tag>> GetTagsAsync()
+        public async Task<List<Tag>> GetTagsAsync()
         {
             IRestService rest = new RestService();
-            ObservableCollection<Tag> tags = await rest.GetTagsAsync();
+            List<Tag> tags = await rest.GetTagsAsync();
             return tags;
         }
 

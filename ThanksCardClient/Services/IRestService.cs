@@ -33,7 +33,7 @@ namespace ThanksCardClient.Services
         Task<ThanksCard> PostThanksCardAsync(ThanksCard thanksCard);
 
         // Tag REST API Client
-        Task<ObservableCollection<Tag>> GetTagsAsync();
+        Task<List<Tag>> GetTagsAsync();
         Task<Tag> PostTagAsync(Tag tag);
         Task<Tag> PutTagAsync(Tag tag);
         Task<Tag> DeleteTagAsync(long Id);

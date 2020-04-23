@@ -293,16 +293,16 @@ namespace ThanksCardClient.Services
             return responseThanksCard;
         }
 
-        public async Task<ObservableCollection<Tag>> GetTagsAsync()
+        public async Task<List<Tag>> GetTagsAsync()
         {
-            ObservableCollection<Tag> responseTags = null;
+            List<Tag> responseTags = null;
             try
             {
                 var response = await Client.GetAsync(this.BaseUrl + "/api/Tags");
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    responseTags = JsonConvert.DeserializeObject<ObservableCollection<Tag>>(responseContent);
+                    responseTags = JsonConvert.DeserializeObject<List<Tag>>(responseContent);
                 }
             }
             catch (Exception e)

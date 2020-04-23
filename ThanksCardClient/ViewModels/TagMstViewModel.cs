@@ -14,8 +14,8 @@ namespace ThanksCardClient.ViewModels
         private readonly IRegionManager regionManager;
 
         #region TagsProperty
-        private ObservableCollection<Tag> _Tags;
-        public ObservableCollection<Tag> Tags
+        private List<Tag> _Tags;
+        public List<Tag> Tags
         {
             get { return _Tags; }
             set { SetProperty(ref _Tags, value); }
