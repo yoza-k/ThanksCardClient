@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30002.166
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThanksCardClient", "ThanksCardClient\ThanksCardClient.csproj", "{BD4747F8-29C2-4F7C-AA16-9E6835C17B54}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThanksCardClient", "ThanksCardClient\ThanksCardClient.csproj", "{0C0FA395-08CA-4DA0-A9A6-3B2DE7879C80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BD4747F8-29C2-4F7C-AA16-9E6835C17B54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BD4747F8-29C2-4F7C-AA16-9E6835C17B54}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BD4747F8-29C2-4F7C-AA16-9E6835C17B54}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BD4747F8-29C2-4F7C-AA16-9E6835C17B54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C0FA395-08CA-4DA0-A9A6-3B2DE7879C80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C0FA395-08CA-4DA0-A9A6-3B2DE7879C80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C0FA395-08CA-4DA0-A9A6-3B2DE7879C80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C0FA395-08CA-4DA0-A9A6-3B2DE7879C80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {64B08490-3059-4F02-BFBE-7BF54FFA85AD}
+		SolutionGuid = {5A20546A-2F97-498D-9521-67BA8337A6CA}
 	EndGlobalSection
 EndGlobal
