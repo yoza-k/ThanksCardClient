@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="ThanksCardClient.Views.ThanksCardCreate"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:prism="http://prismlibrary.com/" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      prism:ViewModelLocator.AutoWireViewModel="True" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ThanksCardClient.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="タイトル:"/>
+            <TextBox Text="{Binding ThanksCard.Title}"/>
+            <TextBlock Text="感謝の言葉:"/>
+            <TextBox Text="{Binding ThanksCard.Body}"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="部署:"/>
+                <ComboBox x:Name="FromDepartments" ItemsSource="{Binding Departments}" DisplayMemberPath="Name" SelectedValuePath="Id">
+                    <!-- Deparment が選択されたら FromDepartmentsChangedCommand を発行する -->
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding FromDepartmentsChangedCommand}" CommandParameter="{Binding ElementName=FromDepartments, Path=SelectedValue}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+                <TextBlock Text="From:"/>
+                <ComboBox ItemsSource="{Binding FromUsers}" DisplayMemberPath="Name" SelectedValue="{Binding ThanksCard.FromId}" SelectedValuePath="Id"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="部署:"/>
+                <ComboBox x:Name="ToDepartments" ItemsSource="{Binding Departments}" DisplayMemberPath="Name" SelectedValuePath="Id">
+                    <!-- Deparment が選択されたら ToDepartmentsChangedCommand を発行する -->
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding ToDepartmentsChangedCommand}" CommandParameter="{Binding ElementName=ToDepartments, Path=SelectedValue}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+                <TextBlock Text="To:"/>
+                <ComboBox ItemsSource="{Binding ToUsers}" DisplayMemberPath="Name" SelectedValue="{Binding ThanksCard.ToId}" SelectedValuePath="Id"/>
+            </StackPanel>
+            <TextBlock Text="作成日:"/>
+            <DatePicker SelectedDate="{Binding ThanksCard.CreatedDateTime}"/>
+            <ListBox ItemsSource="{Binding Tags}" IsSynchronizedWithCurrentItem="True" SelectionMode="Multiple" DisplayMemberPath="Name">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="IsSelected" Value="{Binding Selected}" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+            <Button Content="作成" Command="{Binding SubmitCommand}"/>
+        </StackPanel>    
+    </Grid>
+</UserControl>
