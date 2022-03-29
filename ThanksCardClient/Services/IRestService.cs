@@ -30,6 +30,7 @@ namespace ThanksCardClient.Services
 
         // TanksCard REST API Client
         Task<List<ThanksCard>> GetThanksCardsAsync();
+        Task<List<ThanksCard>> GetSearchThanksCardsAsync(string searchWord);
         Task<ThanksCard> PostThanksCardAsync(ThanksCard thanksCard);
 
         // Tag REST API Client
