@@ -226,13 +226,12 @@ namespace ThanksCardClient.Services
             return responseThanksCards;
         }
 
-        public async Task<List<ThanksCard>> GetSearchThanksCardsAsync(string searchWord)
+        public async Task<List<ThanksCard>> PostSearchThanksCardsAsync(SearchThanksCard searchThanksCard)
         {
             List<ThanksCard> responseThanksCards = null;
             try
             {
-                var response = await Client.GetAsync(this.BaseUrl + "/api/ThanksCards");
-                //var response = await Client.PostAsJsonAsync(this.BaseUrl + "/api/ThanksCards", searchWord);
+                var response = await Client.PostAsJsonAsync(this.BaseUrl + "/api/SearchThanksCard", searchThanksCard);
                 if (response.IsSuccessStatusCode)
                 {
                     responseThanksCards = await response.Content.ReadFromJsonAsync<List<ThanksCard>>();

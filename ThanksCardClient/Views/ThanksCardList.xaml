@@ -10,11 +10,8 @@
       d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <StackPanel>
-            <Grid>
-                <Button Content="検索" Command="{Binding SubmitSearchCommand}" CommandParameter="{Binding SearchWord}" Width="126" Margin="0,0,674,0"/>
-                <Button Content="クリア" Command="{Binding SubmitCommand}" Width="126" Margin="387,0,287,0"/>
-                <TextBox Text="{Binding SearchWord}" Margin="126,0,413,0"/>
-            </Grid>
+            <TextBox Text="{Binding SearchWord}"/>
+            <Button Content="検索" Command="{Binding SubmitSearchCommand}" CommandParameter="{Binding SearchWord}" Width="126"/>
             <DataGrid ItemsSource="{Binding ThanksCards}" AutoGenerateColumns="False" CanUserAddRows="False" SelectionChanged="DataGrid_SelectionChanged" Margin="0,0,0,0">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" />

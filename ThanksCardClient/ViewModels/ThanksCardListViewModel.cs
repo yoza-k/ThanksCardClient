@@ -40,6 +40,14 @@ namespace ThanksCardClient.ViewModels
         }
         #endregion
 
+        #region SearchThanksCardProperty
+        private SearchThanksCard _SearchThanksCard;
+        public SearchThanksCard SearchThanksCard
+        {
+            get { return _SearchThanksCard; }
+            set { SetProperty(ref _SearchThanksCard, value); }
+        }
+        #endregion
 
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
@@ -66,8 +74,9 @@ namespace ThanksCardClient.ViewModels
         async void ExecuteSubmitSearchCommand(string parameter)   
         {
             ThanksCard thanksCard = new ThanksCard();
-            List<ThanksCard> authorizedUser = await thanksCard.GetSearchThanksCardsAsync(parameter);
-            //System.Diagnostics.Debug.WriteLine("Test2Command が呼ばれました。パラメータは「" + parameter + "」です。");
+            this.SearchThanksCard = new SearchThanksCard();
+            this.SearchThanksCard.SearchWord = parameter;
+            ThanksCards = await thanksCard.PostSearchThanksCardsAsync(SearchThanksCard);
         }
         #endregion
     }
