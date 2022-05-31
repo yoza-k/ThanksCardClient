@@ -27,6 +27,27 @@ namespace ThanksCardClient.ViewModels
             this.regionManager = regionManager;
         }
 
+        #region SearchWordProperty
+        private string _SearchWord;
+        public string SearchWord
+        {
+            get { return _SearchWord; }
+            set
+            {
+                SetProperty(ref _SearchWord, value);
+                System.Diagnostics.Debug.WriteLine("SearchWord: " + this.SearchWord); //動作確認用。本来はこの行は必要ありません。
+            }
+        }
+        #endregion
+
+        #region SearchThanksCardProperty
+        private SearchThanksCard _SearchThanksCard;
+        public SearchThanksCard SearchThanksCard
+        {
+            get { return _SearchThanksCard; }
+            set { SetProperty(ref _SearchThanksCard, value); }
+        }
+        #endregion
 
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
@@ -44,5 +65,19 @@ namespace ThanksCardClient.ViewModels
         {
             //throw new NotImplementedException();
         }
+
+        #region SubmitSearchCommand
+        private DelegateCommand<string> _SubmitSearchCommand;
+        public DelegateCommand<string> SubmitSearchCommand =>
+            _SubmitSearchCommand ?? (_SubmitSearchCommand = new DelegateCommand<string>(ExecuteSubmitSearchCommand));
+
+        async void ExecuteSubmitSearchCommand(string parameter)   
+        {
+            ThanksCard thanksCard = new ThanksCard();
+            this.SearchThanksCard = new SearchThanksCard();
+            this.SearchThanksCard.SearchWord = parameter;
+            ThanksCards = await thanksCard.PostSearchThanksCardsAsync(SearchThanksCard);
+        }
+        #endregion
     }
 }

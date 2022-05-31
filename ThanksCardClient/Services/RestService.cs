@@ -226,6 +226,25 @@ namespace ThanksCardClient.Services
             return responseThanksCards;
         }
 
+        public async Task<List<ThanksCard>> PostSearchThanksCardsAsync(SearchThanksCard searchThanksCard)
+        {
+            List<ThanksCard> responseThanksCards = null;
+            try
+            {
+                var response = await Client.PostAsJsonAsync(this.BaseUrl + "/api/SearchThanksCard", searchThanksCard);
+                if (response.IsSuccessStatusCode)
+                {
+                    responseThanksCards = await response.Content.ReadFromJsonAsync<List<ThanksCard>>();
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception in RestService.GetThanksCardsAsync: " + e);
+            }
+            return responseThanksCards;
+        }
+
+
         public async Task<ThanksCard> PostThanksCardAsync(ThanksCard thanksCard)
         {
             ThanksCard responseThanksCard = null;

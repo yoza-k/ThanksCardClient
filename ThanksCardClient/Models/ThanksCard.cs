@@ -111,5 +111,12 @@ namespace ThanksCardClient.Models
             ThanksCard createdThanksCard = await rest.PostThanksCardAsync(thanksCard);
             return createdThanksCard;
         }
+
+        public async Task<List<ThanksCard>> PostSearchThanksCardsAsync(SearchThanksCard searchThanksCard)
+        {
+            IRestService rest = new RestService();
+            List<ThanksCard> thanksCards = await rest.PostSearchThanksCardsAsync(searchThanksCard);
+            return thanksCards;
+        }
     }
 }
